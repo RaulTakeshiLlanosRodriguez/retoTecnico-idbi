@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\MovementRepository;
+use App\Repositories\MovementRepositoryInterface;
+use App\Repositories\ProductRepository;
+use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +15,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            ProductRepositoryInterface::class,
+            ProductRepository::class
+        );
+        $this->app->bind(
+            MovementRepositoryInterface::class,
+            MovementRepository::class
+        );
     }
 
     /**
