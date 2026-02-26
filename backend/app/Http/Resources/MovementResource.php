@@ -19,6 +19,7 @@ class MovementResource extends JsonResource
             'tipo'        => $this->tipo,
             'cantidad'    => $this->cantidad,
             'motivo'      => $this->motivo,
+            'fecha'    => $this->fecha,
             'product'    => [
                 'id'           => $this->product->id,
                 'nombre'       => $this->product->nombre,

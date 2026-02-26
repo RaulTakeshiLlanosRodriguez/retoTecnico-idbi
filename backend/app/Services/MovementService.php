@@ -13,18 +13,14 @@ class MovementService
 
     public function __construct(private ProductRepositoryInterface $productRepository, private MovementRepositoryInterface $movementRepository) {}
 
-    public function list(int $userId)
+    public function list(int $userId, array $filtros = [])
     {
-        return Movement::query()
-            ->where('user_id', $userId)
-            ->with('product')
-            ->orderByDesc('fecha')
-            ->get();
+        return $this->movementRepository->getAll($userId, $filtros);
     }
 
     public function create(array $data, int $userId)
     {
-        $product = Product::findOrFail($data['product_id']);
+        $product = $this->productRepository->findById($data['product_id']);
 
         if ($data['tipo'] == 'salida' && $data['cantidad'] > $product->stock_actual) {
             throw ValidationException::withMessages([
@@ -32,7 +28,7 @@ class MovementService
             ]);
         }
 
-        return Movement::create([
+        return $this->movementRepository->create([
             ...$data,
             'user_id' => $userId
         ]);
