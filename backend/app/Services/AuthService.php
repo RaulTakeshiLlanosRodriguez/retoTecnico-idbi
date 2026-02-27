@@ -18,7 +18,7 @@ class AuthService
     }
 
     public function login(array $data){
-        $user = $this->repository->findByEmail($data['email'])->first();
+        $user = $this->repository->findByEmail($data['email']);
 
         if(!$user || !Hash::check($data['password'], $user->password)){
             throw ValidationException::withMessages([

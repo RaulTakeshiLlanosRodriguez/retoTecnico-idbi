@@ -61,18 +61,22 @@ export default function MovementsPage() {
     }
   };
 
+  const getTipoBadge = (tipo: string) => {
+    if (tipo === "entrada") return "bg-green-50 text-green-700 border-green-200";
+    return "bg-red-50 text-red-700 border-red-200";
+  };
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-xl font-semibold">Movimientos</h1>
         <div className="flex gap-2">
-          <Link to="/movements/new" className="rounded-lg border px-3 py-2 hover:bg-gray-50">
-            + Registrar
+          <Link to="/movements/new" className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors">
+            Registrar
           </Link>
           <button
             onClick={onExport}
             disabled={exporting}
-            className="rounded-lg bg-black px-4 py-2 text-white disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-700 transition-colors disabled:opacity-60"
           >
             {exporting ? "Exportando..." : "Exportar reporte"}
           </button>
@@ -118,13 +122,13 @@ export default function MovementsPage() {
           <div className="flex items-end gap-2">
             <button
               onClick={onApplyFilters}
-              className="w-full rounded-lg border px-3 py-2 hover:bg-gray-50"
+              className="w-full rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
             >
               Filtrar
             </button>
             <button
               onClick={onClear}
-              className="w-full rounded-lg border px-3 py-2 hover:bg-gray-50"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
             >
               Limpiar
             </button>
@@ -169,7 +173,7 @@ export default function MovementsPage() {
                     
                     <td className="p-3">{m.product?.nombre}</td>
                     <td className="p-3">
-                      <span className="rounded-full border px-2 py-1 text-xs">
+                      <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${getTipoBadge(m.tipo)}`}>
                         {m.tipo}
                       </span>
                     </td>

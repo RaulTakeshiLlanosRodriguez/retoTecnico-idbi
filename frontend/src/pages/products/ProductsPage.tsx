@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import type { Product } from "../../types";
 import { deleteProduct, getProducts } from "../../api/productsApi";
+import ConfirmModal from "../../components/ConfirmModal";
 
 export default function ProductsPage() {
   const [items, setItems] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   const load = async () => {
     try {
@@ -26,30 +29,36 @@ export default function ProductsPage() {
     load();
   }, []);
 
-  const onDelete = async (id: number) => {
-    const ok = confirm("¿Seguro que deseas eliminar este producto?");
-    if (!ok) return;
+  const onDeleteClick = (product: Product) => {
+    setProductToDelete(product);
+    setConfirmOpen(true);
+  };
 
+  const onConfirmDelete = async () => {
+    if (!productToDelete) return;
+    setConfirmOpen(false);
     try {
-      setDeletingId(id);
-      await deleteProduct(id);
-      setItems((prev) => prev.filter((p) => p.id !== id));
+      setDeletingId(productToDelete.id);
+      await deleteProduct(productToDelete.id);
+      setItems((prev) => prev.filter((p) => p.id !== productToDelete.id));
     } catch (err: any) {
-      alert(err?.response?.data?.message ?? "No se pudo eliminar");
     } finally {
       setDeletingId(null);
+      setProductToDelete(null);
     }
   };
 
+
   return (
+    <>
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-xl font-semibold">Productos</h1>
         <Link
           to="/products/new"
-          className="rounded-lg bg-black px-4 py-2 text-white"
+          className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-gray-700 transition-colors"
         >
-          + Nuevo
+          Nuevo
         </Link>
       </div>
 
@@ -92,14 +101,14 @@ export default function ProductsPage() {
                       <div className="flex gap-2">
                         <Link
                           to={`/products/${p.id}/edit`}
-                          className="rounded-lg border px-3 py-2 hover:bg-gray-50"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors"
                         >
                           Editar
                         </Link>
                         <button
-                          onClick={() => onDelete(p.id)}
+                          onClick={() => onDeleteClick(p)}
                           disabled={deletingId === p.id}
-                          className="rounded-lg border px-3 py-2 hover:bg-gray-50 disabled:opacity-60"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 shadow-sm hover:bg-red-50 transition-colors disabled:opacity-50"
                         >
                           {deletingId === p.id ? "Eliminando..." : "Eliminar"}
                         </button>
@@ -113,5 +122,16 @@ export default function ProductsPage() {
         </div>
       )}
     </div>
+    <ConfirmModal
+        open={confirmOpen}
+        title="Eliminar producto"
+        message={`¿Estás seguro de que deseas eliminar "${productToDelete?.nombre}"? Esta acción no se puede deshacer.`}
+        confirmLabel="Sí, eliminar"
+        cancelLabel="Cancelar"
+        variant="danger"
+        onConfirm={onConfirmDelete}
+        onCancel={() => { setConfirmOpen(false); setProductToDelete(null); }}
+      />
+      </>
   );
 }

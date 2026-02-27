@@ -22,6 +22,7 @@ export default function RegisterPage() {
   const [nameErr, setNameErr] = useState<string | null>(null);
   const [emailErr, setEmailErr] = useState<string | null>(null);
   const [passwordErr, setPasswordErr] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const validateClient = () => {
     setFormError(null);
@@ -42,7 +43,6 @@ export default function RegisterPage() {
 
     try {
       setLoading(true);
-      // En AuthContext yo lo dejé con login automático luego de register
       await register({ name, email, password });
       nav("/products");
     } catch (err: any) {
@@ -101,19 +101,38 @@ export default function RegisterPage() {
               <p className="mt-1 text-xs text-red-600">{emailErr}</p>
             )}
           </div>
-
           <div>
             <label className="text-sm">Password</label>
-            <input
-              className="mt-1 w-full rounded-lg border p-2"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-            />
-            {passwordErr && (
-              <p className="mt-1 text-xs text-red-600">{passwordErr}</p>
-            )}
+            <div className="relative mt-1">
+
+              <input
+                className="mt-1 w-full rounded-lg border p-2"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+              >
+                {showPassword ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17.94 17.94A10.94 10.94 0 0112 20c-5 0-9-4-10-8a11.05 11.05 0 012.53-4.36" />
+                    <path d="M1 1l22 22" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+              {passwordErr && (
+                <p className="mt-1 text-xs text-red-600">{passwordErr}</p>
+              )}
+            </div>
           </div>
 
           <button
