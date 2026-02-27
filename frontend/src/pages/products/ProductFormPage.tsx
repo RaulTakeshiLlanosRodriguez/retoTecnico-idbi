@@ -30,7 +30,7 @@ export default function ProductFormPage({ mode }: Props) {
       if (mode !== "edit" || !productId) return;
       try {
         setLoading(true);
-        const res = await getProduct(productId); // { data: Product }
+        const res = await getProduct(productId);
         setNombre(res.data.nombre);
         setSku(res.data.sku);
       } catch (err: any) {

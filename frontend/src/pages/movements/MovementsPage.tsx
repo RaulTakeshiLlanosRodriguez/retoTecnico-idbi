@@ -148,11 +148,12 @@ export default function MovementsPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-left">
               <tr>
-                <th className="p-3">Fecha</th>
+                
                 <th className="p-3">Producto</th>
                 <th className="p-3">Tipo</th>
                 <th className="p-3">Cantidad</th>
                 <th className="p-3">Motivo</th>
+                <th className="p-3">Fecha</th>
               </tr>
             </thead>
             <tbody>
@@ -165,7 +166,7 @@ export default function MovementsPage() {
               ) : (
                 items.map((m) => (
                   <tr key={m.id} className="border-t">
-                    <td className="p-3">{m.fecha}</td>
+                    
                     <td className="p-3">{m.product?.nombre}</td>
                     <td className="p-3">
                       <span className="rounded-full border px-2 py-1 text-xs">
@@ -174,6 +175,7 @@ export default function MovementsPage() {
                     </td>
                     <td className="p-3 font-medium">{m.cantidad}</td>
                     <td className="p-3">{m.motivo ?? "-"}</td>
+                    <td className="p-3">{m.fecha}</td>
                   </tr>
                 ))
               )}
