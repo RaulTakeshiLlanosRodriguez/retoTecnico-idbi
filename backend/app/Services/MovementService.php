@@ -35,12 +35,12 @@ class MovementService
     }
 
     public function export(int $userId, array $filtros = [])
-{
-    $movements = $this->movementRepository->getAll($userId, $filtros);
+    {
+        $movements = $this->movementRepository->getAll($userId, $filtros);
 
-    return Excel::download(
-        new MovementsExport($movements),
-        'reporte-movimientos.xlsx'
-    );
-}
+        return Excel::download(
+            new MovementsExport($movements),
+            'reporte-movimientos.xlsx'
+        );
+    }
 }
