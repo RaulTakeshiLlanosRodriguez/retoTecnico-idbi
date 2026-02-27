@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const hydrate = async () => {
     try {
       const res = await meApi();
-      setUser(res.user.data);
+      setUser(res.user);
       setToken(res.access_token);
       localStorage.setItem("token", res.access_token);
     } catch {
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     const res = await loginApi(c); 
     localStorage.setItem("token", res.access_token);
     setToken(res.access_token);
-    setUser(res.user.data);
+    setUser(res.user);
   };
 
   const register = async (c: RegisterCredentials) => {

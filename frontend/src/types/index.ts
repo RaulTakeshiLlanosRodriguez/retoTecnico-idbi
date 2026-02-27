@@ -29,7 +29,7 @@ export type ResourceCollectionResponse<T> = { data: T[] };
 
 
 export type LoginResponse = {
-  user: ResourceResponse<User>;
+  user: User;
   access_token: string;
   message: string;
 };
@@ -37,7 +37,7 @@ export type LoginResponse = {
 export type RegisterResponse = ResourceResponse<User>;
 
 export type UserMeResponse = {
-  user: ResourceResponse<User>;
+  user: User;
   access_token: string;
 };
 

@@ -19,7 +19,7 @@ export default function AppLayout() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-600">{user?.name}</span>
+            <span className="text-sm text-gray-600">Hola {user?.name}</span>
             <button onClick={logout} className="text-sm rounded-lg border px-3 py-2 hover:bg-gray-100">
               Salir
             </button>
