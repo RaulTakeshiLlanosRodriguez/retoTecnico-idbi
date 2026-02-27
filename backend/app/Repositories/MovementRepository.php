@@ -31,4 +31,11 @@ class MovementRepository implements MovementRepositoryInterface
     {
         return Movement::create($data);
     }
+
+    public function sumProductsByTipo(int $productId, string $tipo)
+    {
+        return Movement::where('product_id', $productId)
+            ->where('tipo', $tipo)
+            ->sum('cantidad');
+    }
 }

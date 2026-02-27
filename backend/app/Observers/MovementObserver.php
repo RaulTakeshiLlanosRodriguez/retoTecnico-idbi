@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\MovementCreated;
 use App\Models\Movement;
 
 class MovementObserver
@@ -11,6 +12,6 @@ class MovementObserver
      */
     public function created(Movement $movement): void
     {
-        $movement->product->updateStock();
+        MovementCreated::dispatch($movement);
     }
 }

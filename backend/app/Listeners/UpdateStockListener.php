@@ -22,6 +22,6 @@ class UpdateStockListener
      */
     public function handle(MovementCreated $event): void
     {
-        
+        $this->service->updateStock($event->movement->product);
     }
 }

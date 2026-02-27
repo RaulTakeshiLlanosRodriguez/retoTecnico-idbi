@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\MovementCreated;
+use App\Listeners\UpdateStockListener;
 use App\Repositories\MovementRepository;
 use App\Repositories\MovementRepositoryInterface;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            MovementCreated::class,
+            UpdateStockListener::class
+        );
     }
 }

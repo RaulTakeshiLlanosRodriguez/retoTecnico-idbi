@@ -23,14 +23,4 @@ class Product extends Model
     {
         return $this->hasMany(Movement::class);
     }
-
-    public function updateStock()
-    {
-        $entradas = $this->movements()->where('tipo', 'entrada')->sum('cantidad');
-        $salidas  = $this->movements()->where('tipo', 'salida')->sum('cantidad');
-
-        $this->update([
-            'stock_actual' => $entradas - $salidas
-        ]);
-    }
 }
