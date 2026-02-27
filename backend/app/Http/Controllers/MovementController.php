@@ -33,4 +33,12 @@ class MovementController extends Controller
             ->response()
             ->setStatusCode(201);
     }
+
+    public function export(Request $request)
+    {
+        return $this->service->export(
+            $request->user()->id,
+            $request->only(['fecha_inicio', 'fecha_fin', 'tipo'])
+        );
+    }
 }

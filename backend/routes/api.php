@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('products', ProductController::class);
+    Route::get('movements/export', [MovementController::class, 'export']);
     Route::apiResource('movements', MovementController::class)->only('index', 'store');
 });
 Route::post('register', [AuthController::class, 'register']);

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Movement;
-use App\Models\Product;
+use App\Exports\MovementsExport;
 use App\Repositories\MovementRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MovementService
 {
@@ -33,4 +33,14 @@ class MovementService
             'user_id' => $userId
         ]);
     }
+
+    public function export(int $userId, array $filtros = [])
+{
+    $movements = $this->movementRepository->getAll($userId, $filtros);
+
+    return Excel::download(
+        new MovementsExport($movements),
+        'reporte-movimientos.xlsx'
+    );
+}
 }
